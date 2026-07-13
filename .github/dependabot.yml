@@ -10,6 +10,9 @@ updates:
     groups:
       javascript:
         patterns: ["*"]
+    ignore:
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
     labels: [dependencies, javascript]
     open-pull-requests-limit: 5
 
