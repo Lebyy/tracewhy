@@ -20,7 +20,7 @@ GitHub Actions dependencies are pinned to immutable commits. Bun, Rust, JavaScri
 To validate a locally built archive on Linux:
 
 ```bash
-./scripts/package-release.sh v1.0.1 x64
+./scripts/package-release.sh v1.0.2 x64
 ./scripts/verify-release.sh dist/tracewhy-linux-x64.tar.gz
 ```
 
@@ -30,7 +30,7 @@ Publish npm only after the GitHub release and both Linux archives are public:
 
 ```bash
 npm publish ./npm/tracewhy --access public
-npm view tracewhy@1.0.1 dist.integrity dist.tarball
+npm view tracewhy@1.0.2 dist.integrity dist.tarball
 ```
 
 The first publish requires an authenticated npm account. Subsequent releases should use npm trusted publishing from the GitHub release workflow once the package exists and its trusted publisher is configured.

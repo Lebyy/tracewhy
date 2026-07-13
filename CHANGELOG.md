@@ -4,6 +4,13 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-07-13
+
+### Changed
+
+- Published the complete project README on npm and added a direct npm package link to the GitHub README.
+- Added a cross-platform quality gate that prevents the GitHub and npm README files from drifting apart.
+
 ## [1.0.1] - 2026-07-13
 
 ### Added

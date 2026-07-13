@@ -1,11 +1,12 @@
 <p align="center">
-  <img src="docs/assets/tracewhy-logo.svg" width="760" alt="TraceWhy — different environment, concrete evidence">
+  <img src="https://raw.githubusercontent.com/Lebyy/tracewhy/main/docs/assets/tracewhy-logo.svg" width="760" alt="TraceWhy — different environment, concrete evidence">
 </p>
 
 <p align="center">
   <a href="https://github.com/Lebyy/tracewhy/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Lebyy/tracewhy/actions/workflows/ci.yml/badge.svg"></a>
   <a href="https://github.com/Lebyy/tracewhy/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://github.com/Lebyy/tracewhy/actions/workflows/codeql.yml/badge.svg"></a>
   <a href="https://github.com/Lebyy/tracewhy/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/Lebyy/tracewhy?display_name=tag&sort=semver"></a>
+  <a href="https://www.npmjs.com/package/tracewhy"><img alt="npm package" src="https://img.shields.io/npm/v/tracewhy?logo=npm&label=npm&color=cb3837"></a>
   <a href="LICENSE"><img alt="Apache-2.0 license" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg"></a>
   <img alt="No telemetry" src="https://img.shields.io/badge/telemetry-none-72e5a5">
 </p>
@@ -14,7 +15,7 @@
 
 TraceWhy records a known-good command and a failing command, compares their operating-system interactions, removes expected noise, and ranks the environmental differences most likely to explain the failure. Every finding links back to normalized good/bad trace evidence. The complete workflow is local, deterministic, offline, and independent of AI, accounts, API keys, telemetry, and cloud services.
 
-![TraceWhy full-capability report](docs/assets/report-overview.jpg)
+![TraceWhy full-capability report](https://raw.githubusercontent.com/Lebyy/tracewhy/main/docs/assets/report-overview.jpg)
 
 ## See it work
 
@@ -30,7 +31,7 @@ tracewhy compare good bad
 tracewhy view good bad
 ```
 
-![TraceWhy identifies a missing file from real trace evidence](docs/assets/cli-demo.gif)
+![TraceWhy identifies a missing file from real trace evidence](https://raw.githubusercontent.com/Lebyy/tracewhy/main/docs/assets/cli-demo.gif)
 
 ## What TraceWhy explains
 
@@ -47,7 +48,7 @@ tracewhy view good bad
 
 The repository includes six reproducible Linux incidents and a [diagnostic casebook](packages/fixtures/showcase-suite/README.md) covering every capability. Findings are deterministic rules with confidence scores; TraceWhy reports a likely cause, not proof of formal causation.
 
-![Linked good and bad shared-library evidence](docs/assets/report-evidence.jpg)
+![Linked good and bad shared-library evidence](https://raw.githubusercontent.com/Lebyy/tracewhy/main/docs/assets/report-evidence.jpg)
 
 ## Platform support
 
@@ -64,7 +65,7 @@ Native macOS and Windows capture are not claimed in v1. They require dedicated, 
 
 ## Install on Linux
 
-With npm:
+With the official [npm package](https://www.npmjs.com/package/tracewhy):
 
 ```bash
 npm install --global tracewhy
@@ -81,7 +82,7 @@ curl -fsSL https://raw.githubusercontent.com/Lebyy/tracewhy/main/scripts/install
 Install a specific version or location:
 
 ```bash
-TRACEWHY_VERSION=v1.0.1 TRACEWHY_INSTALL_DIR="$HOME/.local/bin" sh install.sh
+TRACEWHY_VERSION=v1.0.2 TRACEWHY_INSTALL_DIR="$HOME/.local/bin" sh install.sh
 ```
 
 Release archives contain the CLI, static Rust engine, standalone report, and its pinned runtime. The installer verifies the published SHA-256 checksum. `strace` is required only for recording.
@@ -143,7 +144,7 @@ Treat recordings and exports as sensitive despite these controls. Review the [pr
 
 ## Quality gates
 
-Every pull request runs formatting, strict TypeScript, Rust Clippy with warnings denied, 36 automated tests, dependency review, audits, release builds, and portable analysis checks. Linux x86-64 and ARM64 additionally run all six live `strace` scenarios and clean-install verification. macOS ARM64 and Windows x86-64 compile and exercise compare, pack, offline HTML, and the local report on real hosted runners.
+Every pull request runs formatting, strict TypeScript, Rust Clippy with warnings denied, 40 automated tests, dependency review, audits, release builds, and portable analysis checks. Linux x86-64 and ARM64 additionally run all six live `strace` scenarios and clean-install verification. macOS ARM64 and Windows x86-64 compile and exercise compare, pack, offline HTML, and the local report on real hosted runners.
 
 ```bash
 bun run check
