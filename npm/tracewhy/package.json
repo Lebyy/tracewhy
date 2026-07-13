@@ -1,0 +1,48 @@
+{
+  "name": "tracewhy",
+  "version": "1.0.1",
+  "description": "Deterministic, evidence-linked Linux command debugging",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lebyy/tracewhy.git"
+  },
+  "bugs": "https://github.com/Lebyy/tracewhy/issues",
+  "homepage": "https://github.com/Lebyy/tracewhy#readme",
+  "keywords": [
+    "debugging",
+    "strace",
+    "linux",
+    "cli",
+    "deterministic"
+  ],
+  "type": "module",
+  "bin": {
+    "tracewhy": "bin/tracewhy.mjs"
+  },
+  "files": [
+    "bin",
+    "scripts",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "postinstall": "node scripts/install.mjs",
+    "test": "node --test",
+    "prepack": "npm test"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "preferGlobal": true,
+  "publishConfig": {
+    "access": "public"
+  }
+}

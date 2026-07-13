@@ -1,6 +1,6 @@
 {
   "name": "tracewhy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Deterministic, evidence-linked environment debugging",
   "license": "Apache-2.0",
@@ -26,9 +26,10 @@
     "check:core": "cargo clippy --locked --workspace --all-targets -- -D warnings",
     "check:shell": "shellcheck scripts/*.sh demos/*.sh demos/*/*.sh",
     "check:ts": "bun run tsc --noEmit",
-    "test": "bun run test:core && bun run test:cli",
+    "test": "bun run test:core && bun run test:cli && bun run test:npm",
     "test:core": "cargo test --locked --workspace",
     "test:cli": "bun test apps/cli apps/web packages/schema",
+    "test:npm": "npm test --prefix npm/tracewhy",
     "audit:js": "bun audit --audit-level=high",
     "dev:web": "bun run --cwd apps/web dev"
   },

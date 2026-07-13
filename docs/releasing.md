@@ -13,14 +13,24 @@ Release output contains:
 - `SHA256SUMS` with exactly one digest per archive;
 - an SPDX JSON software bill of materials for each architecture;
 - GitHub build-provenance attestations bound to the archives and SBOMs.
+- `tracewhy-<version>.tgz`, the npm installer package for the two supported Linux architectures.
 
 GitHub Actions dependencies are pinned to immutable commits. Bun, Rust, JavaScript packages, and Rust crates are locked to reviewed versions. The publish job runs only after both architecture jobs complete.
 
 To validate a locally built archive on Linux:
 
 ```bash
-./scripts/package-release.sh v1.0.0 x64
+./scripts/package-release.sh v1.0.1 x64
 ./scripts/verify-release.sh dist/tracewhy-linux-x64.tar.gz
 ```
 
 `TRACEWHY_CORE_BINARY` can point packaging at a musl target build. The release workflow uses this to ship a static Rust engine. Never upload an archive produced with a dirty or unreviewed lockfile.
+
+Publish npm only after the GitHub release and both Linux archives are public:
+
+```bash
+npm publish ./npm/tracewhy --access public
+npm view tracewhy@1.0.1 dist.integrity dist.tarball
+```
+
+The first publish requires an authenticated npm account. Subsequent releases should use npm trusted publishing from the GitHub release workflow once the package exists and its trusted publisher is configured.
