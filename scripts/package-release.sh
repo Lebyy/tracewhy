@@ -39,10 +39,6 @@ cp "${cli_binary}" "${stage}/tracewhy"
 cp "${core_binary}" "${stage}/tracewhy-trace-core"
 cp "${bun_binary}" "${stage}/bun"
 cp -RL "${root}/apps/web/.next/standalone/." "${stage}/web/"
-if [[ -d "${root}/apps/web/.next/standalone/node_modules/.bun/node_modules" ]]; then
-  cp -RL "${root}/apps/web/.next/standalone/node_modules/.bun/node_modules/." "${stage}/web/node_modules/"
-  rm -rf "${stage}/web/node_modules/.bun"
-fi
 cp -R "${root}/docs" "${stage}/docs"
 mkdir -p "${stage}/schemas"
 cp "${root}/packages/schema/"*.schema.json "${stage}/schemas/"
