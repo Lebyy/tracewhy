@@ -1,0 +1,14 @@
+.DS_Store
+.tracewhy/
+.build/
+node_modules/
+.next/
+dist/
+target/
+coverage/
+*.log
+!packages/fixtures/**/stdout.log
+!packages/fixtures/**/stderr.log
+*.tracewhy
+.env
+.env.local

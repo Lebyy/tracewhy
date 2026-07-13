@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tracewhy.dev/schema/comparison-v1.json",
+  "title": "TraceWhy comparison",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracewhy_version",
+    "comparison_id",
+    "created_at",
+    "good",
+    "bad",
+    "findings",
+    "events",
+    "processes",
+    "ignored_differences",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "tracewhy_version": { "type": "string" },
+    "comparison_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "good": { "$ref": "#/$defs/summary" },
+    "bad": { "$ref": "#/$defs/summary" },
+    "findings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/finding" }
+    },
+    "events": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["good", "bad"],
+      "properties": {
+        "good": { "type": "array", "items": { "$ref": "event.schema.json" } },
+        "bad": { "type": "array", "items": { "$ref": "event.schema.json" } }
+      }
+    },
+    "processes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["good", "bad"],
+      "properties": {
+        "good": { "type": "array", "items": { "$ref": "#/$defs/process" } },
+        "bad": { "type": "array", "items": { "$ref": "#/$defs/process" } }
+      }
+    },
+    "ignored_differences": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ignored" }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "command", "args", "cwd", "exit", "system", "warnings"],
+      "properties": {
+        "name": { "type": "string" },
+        "command": { "type": "string" },
+        "args": { "type": "array", "items": { "type": "string" } },
+        "cwd": { "type": "string" },
+        "exit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["success"],
+          "properties": {
+            "code": { "type": "integer" },
+            "signal": { "type": "string" },
+            "success": { "type": "boolean" }
+          }
+        },
+        "system": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["platform", "kernel", "architecture"],
+          "properties": {
+            "platform": { "type": "string" },
+            "kernel": { "type": "string" },
+            "architecture": { "type": "string" },
+            "distribution": { "type": "string" },
+            "libc": { "type": "string" }
+          }
+        },
+        "warnings": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding_id",
+        "type",
+        "title",
+        "classification",
+        "confidence",
+        "score",
+        "summary",
+        "reasons",
+        "good_event_ids",
+        "bad_event_ids"
+      ],
+      "properties": {
+        "finding_id": { "type": "string" },
+        "type": {
+          "enum": [
+            "missing_file",
+            "permission_problem",
+            "different_executable",
+            "shared_library_difference",
+            "child_process_failure",
+            "working_directory_difference",
+            "environment_difference"
+          ]
+        },
+        "title": { "type": "string" },
+        "classification": {
+          "enum": ["confirmed_difference", "likely_cause", "supporting_difference"]
+        },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "score": { "type": "integer" },
+        "summary": { "type": "string" },
+        "reasons": { "type": "array", "items": { "type": "string" } },
+        "good_event_ids": { "type": "array", "items": { "type": "string" } },
+        "bad_event_ids": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "process": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["process_id"],
+      "properties": {
+        "process_id": { "type": "string" },
+        "parent_process_id": { "type": "string" },
+        "executable": { "type": "string" },
+        "exit_code": { "type": "integer" },
+        "signal": { "type": "string" }
+      }
+    },
+    "ignored": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason"],
+      "properties": {
+        "reason": { "type": "string" },
+        "good_event_id": { "type": "string" },
+        "bad_event_id": { "type": "string" }
+      }
+    }
+  }
+}

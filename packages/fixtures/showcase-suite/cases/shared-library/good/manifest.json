@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "tracewhy_version": "1.0.0",
+  "recording_id": "9da895d5-a7d1-4d2c-9861-13a02996f007",
+  "name": "good",
+  "started_at": "2026-07-13T12:07:41.068Z",
+  "duration_ms": 28,
+  "command": "/workspace/demos/shared-library/build/demo",
+  "args": [],
+  "cwd": "/workspace",
+  "exit": {
+    "code": 0,
+    "success": true
+  },
+  "system": {
+    "platform": "linux",
+    "kernel": "Linux 6.12.76-linuxkit",
+    "architecture": "aarch64",
+    "distribution": "Debian GNU/Linux 12 (bookworm)",
+    "libc": "ldd (Debian GLIBC 2.36-9+deb12u14) 2.36"
+  },
+  "environment": {
+    "LD_LIBRARY_PATH": "/workspace/demos/shared-library/good",
+    "PATH": "/workspace/dist:/workspace/dist:/usr/local/cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  },
+  "output": {
+    "stdout_bytes": 18,
+    "stderr_bytes": 0,
+    "stdout_truncated": false,
+    "stderr_truncated": false
+  },
+  "warnings": [],
+  "completeness": {
+    "trace_complete": true,
+    "parser_unparsed_lines": 0,
+    "processes_may_have_escaped": false
+  }
+}

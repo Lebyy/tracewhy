@@ -1,0 +1,37 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Asia/Kolkata
+    groups:
+      javascript:
+        patterns: ["*"]
+    labels: [dependencies, javascript]
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:15"
+      timezone: Asia/Kolkata
+    groups:
+      rust:
+        patterns: ["*"]
+    labels: [dependencies, rust]
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:30"
+      timezone: Asia/Kolkata
+    labels: [dependencies, github-actions]
+    open-pull-requests-limit: 5

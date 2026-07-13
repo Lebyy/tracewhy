@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "tracewhy_version": "1.0.0",
+  "recording_id": "1acd2fa0-bef6-45cb-ac61-31036c87fb60",
+  "name": "bad",
+  "started_at": "2026-07-13T12:07:41.628Z",
+  "duration_ms": 28,
+  "command": "/workspace/demos/wrong-working-directory/.build/config-reader",
+  "args": [],
+  "cwd": "/workspace/demos/wrong-working-directory/bad",
+  "exit": {
+    "code": 78,
+    "success": false
+  },
+  "system": {
+    "platform": "linux",
+    "kernel": "Linux 6.12.76-linuxkit",
+    "architecture": "aarch64",
+    "distribution": "Debian GNU/Linux 12 (bookworm)",
+    "libc": "ldd (Debian GLIBC 2.36-9+deb12u14) 2.36"
+  },
+  "environment": {
+    "PATH": "/workspace/dist:/workspace/dist:/usr/local/cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  },
+  "output": {
+    "stdout_bytes": 0,
+    "stderr_bytes": 66,
+    "stdout_truncated": false,
+    "stderr_truncated": false
+  },
+  "warnings": [],
+  "completeness": {
+    "trace_complete": true,
+    "parser_unparsed_lines": 0,
+    "processes_may_have_escaped": false
+  }
+}

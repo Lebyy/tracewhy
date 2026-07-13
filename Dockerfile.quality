@@ -1,0 +1,33 @@
+FROM oven/bun:1.3.14 AS bun
+
+FROM rust:1.97-bookworm
+
+COPY --from=bun /usr/local/bin/bun /usr/local/bin/bun
+
+RUN apt-get update \
+    && apt-get install --yes --no-install-recommends build-essential shellcheck strace \
+    && rm -rf /var/lib/apt/lists/* \
+    && rustup component add clippy rustfmt
+
+WORKDIR /workspace
+ENV NEXT_TELEMETRY_DISABLED=1
+
+COPY package.json bunfig.toml bun.lock ./
+COPY apps/cli/package.json apps/cli/package.json
+COPY apps/web/package.json apps/web/package.json
+COPY packages/schema/package.json packages/schema/package.json
+RUN bun install --frozen-lockfile
+
+COPY . .
+
+RUN bun run check
+RUN bun run test
+RUN bun run build
+
+RUN useradd --create-home --uid 10001 tracewhy \
+    && chown --recursive tracewhy:tracewhy /workspace
+
+USER tracewhy
+ENV PATH="/workspace/dist:${PATH}"
+
+CMD ["./scripts/verify-linux.sh"]

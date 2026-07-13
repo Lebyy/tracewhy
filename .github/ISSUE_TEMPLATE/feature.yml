@@ -1,0 +1,47 @@
+name: Feature request
+description: Propose an evidence-backed diagnosis, workflow, or platform improvement.
+title: "feature: "
+labels: [enhancement, needs-triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Debugging problem
+      description: Describe the good/bad environmental difference and why current evidence cannot explain it.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Observable evidence
+      description: Which process, file, permission, executable, environment, exit, or loader signals distinguish the runs?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed deterministic behavior
+      description: Explain the rule or workflow without relying on AI, network services, or private APIs.
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Area
+      options:
+        - Diagnosis rule
+        - Linux capture
+        - macOS capture research
+        - Windows capture research
+        - CLI or export
+        - Local report
+        - Privacy or security
+        - Documentation or developer experience
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: False-positive, privacy, and compatibility risks
+    validations:
+      required: true

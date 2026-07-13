@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tracewhy.dev/schema/event-v1.json",
+  "title": "TraceWhy normalized event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "process_id", "sequence", "category", "operation", "result", "raw_ref"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "event_id": { "type": "string", "minLength": 1 },
+    "process_id": { "type": "string", "pattern": "^p[0-9]+$" },
+    "parent_process_id": { "type": "string", "pattern": "^p[0-9]+$" },
+    "sequence": { "type": "integer", "minimum": 0 },
+    "category": { "enum": ["process", "file", "permission", "executable", "library", "environment"] },
+    "operation": { "type": "string", "minLength": 1 },
+    "resource": { "type": "string" },
+    "result": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["success", "error"] },
+        "value": { "type": "string" },
+        "code": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "details": { "type": "object", "additionalProperties": true },
+    "raw_ref": {
+      "type": "object",
+      "required": ["file", "line"],
+      "properties": {
+        "file": { "type": "string" },
+        "line": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

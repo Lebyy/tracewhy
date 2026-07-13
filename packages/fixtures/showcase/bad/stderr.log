@@ -1,0 +1,2 @@
+config-preflight: cannot open worker.toml: No such file or directory
+media-worker: preflight failed with exit 78

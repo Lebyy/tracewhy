@@ -1,0 +1,3 @@
+{"schema_version":1,"event_id":"good:1","process_id":"p1","sequence":1,"category":"executable","operation":"execve","resource":"/usr/bin/demo","result":{"kind":"success","value":"0"},"raw_ref":{"file":"trace.101","line":1}}
+{"schema_version":1,"event_id":"good:2","process_id":"p1","sequence":2,"category":"file","operation":"openat","resource":"$PROJECT/config.json","result":{"kind":"success","value":"3"},"raw_ref":{"file":"trace.101","line":2}}
+{"schema_version":1,"event_id":"good:3","process_id":"p1","sequence":3,"category":"process","operation":"exit_group","result":{"kind":"success","value":"0"},"raw_ref":{"file":"trace.101","line":3}}

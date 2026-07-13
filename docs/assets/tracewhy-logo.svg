@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 280" role="img" aria-labelledby="title description">
+  <title id="title">TraceWhy</title>
+  <desc id="description">TraceWhy wordmark with converging execution traces.</desc>
+  <defs>
+    <linearGradient id="surface" x1="20" y1="20" x2="1020" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#151a22"/>
+      <stop offset="1" stop-color="#090c11"/>
+    </linearGradient>
+    <linearGradient id="trace" x1="68" y1="77" x2="232" y2="179" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#72e5a5"/>
+      <stop offset="0.48" stop-color="#a7b0be"/>
+      <stop offset="1" stop-color="#ff654f"/>
+    </linearGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+  <rect x="10" y="10" width="1020" height="260" rx="52" fill="url(#surface)" stroke="#29313d" stroke-width="3"/>
+  <g transform="translate(30 18) scale(.88)">
+    <path d="M52 69h50c23 0 42 19 42 42v7c0 19 15 34 34 34h25" fill="none" stroke="url(#trace)" stroke-width="13" stroke-linecap="round"/>
+    <path d="M52 187h39c29 0 53-24 53-53v-11" fill="none" stroke="#657080" stroke-width="13" stroke-linecap="round"/>
+    <circle cx="52" cy="69" r="12" fill="#72e5a5"/>
+    <circle cx="52" cy="187" r="12" fill="#8a94a3"/>
+    <circle cx="204" cy="152" r="24" fill="#ff654f" opacity=".2" filter="url(#glow)"/>
+    <circle cx="204" cy="152" r="12" fill="#ff654f"/>
+    <path d="M204 174v21" stroke="#ff654f" stroke-width="11" stroke-linecap="round"/>
+    <circle cx="204" cy="216" r="7" fill="#ff654f"/>
+  </g>
+  <text x="286" y="156" fill="#f2f5f8" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="92" font-weight="760" letter-spacing="-4">Trace<tspan fill="#ff654f">Why</tspan></text>
+  <text x="292" y="204" fill="#8993a2" font-family="SFMono-Regular, Consolas, Liberation Mono, monospace" font-size="19" font-weight="500" letter-spacing="4.4">DIFFERENT ENVIRONMENT. CONCRETE EVIDENCE.</text>
+</svg>

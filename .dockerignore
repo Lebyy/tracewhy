@@ -1,0 +1,13 @@
+.git
+.github
+.DS_Store
+**/.next
+**/.tracewhy
+**/node_modules
+coverage
+dist
+target
+*.log
+!packages/fixtures/**/stdout.log
+!packages/fixtures/**/stderr.log
+*.tracewhy

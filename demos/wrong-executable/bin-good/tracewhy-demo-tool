@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+echo "tool v2"
+exit 0

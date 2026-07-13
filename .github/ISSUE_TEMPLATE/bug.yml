@@ -1,0 +1,64 @@
+name: Bug report
+description: Report reproducible incorrect behavior or a missed diagnosis.
+title: "bug: "
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Trace data may be sensitive.** Do not attach recordings, exports, raw traces, private paths, credentials, or proprietary commands without reviewing and sanitizing them. Report vulnerabilities privately through the security advisory link.
+  - type: input
+    id: version
+    attributes:
+      label: TraceWhy version
+      placeholder: v1.0.0 or commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Linux x86-64
+        - Linux ARM64
+        - macOS ARM64 analysis
+        - Windows x86-64 analysis
+        - Other or untested
+    validations:
+      required: true
+  - type: dropdown
+    id: command
+    attributes:
+      label: Workflow
+      options: [record, compare, view, pack, export, build or test]
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal safe reproduction
+      description: Use synthetic names and paths. Explain good and bad inputs without uploading sensitive artifacts.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and sanitized output
+      render: text
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Data review
+      options:
+        - label: I reviewed this report and every attachment for secrets and private trace data.
+          required: true
+        - label: This is not a security vulnerability or redaction bypass.
+          required: true

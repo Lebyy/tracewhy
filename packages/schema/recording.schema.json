@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tracewhy.dev/schema/recording-v1.json",
+  "title": "TraceWhy recording manifest",
+  "type": "object",
+  "required": ["schema_version", "tracewhy_version", "recording_id", "name", "started_at", "duration_ms", "command", "args", "cwd", "exit", "system", "environment", "output", "warnings", "completeness"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "tracewhy_version": { "type": "string" },
+    "recording_id": { "type": "string" },
+    "name": { "type": "string" },
+    "started_at": { "type": "string", "format": "date-time" },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "command": { "type": "string" },
+    "args": { "type": "array", "items": { "type": "string" } },
+    "cwd": { "type": "string" },
+    "exit": { "type": "object", "required": ["success"], "properties": { "code": { "type": "integer" }, "signal": { "type": "string" }, "success": { "type": "boolean" } }, "additionalProperties": false },
+    "system": { "type": "object", "required": ["platform", "kernel", "architecture"], "properties": { "platform": { "type": "string" }, "kernel": { "type": "string" }, "architecture": { "type": "string" }, "distribution": { "type": "string" }, "libc": { "type": "string" } }, "additionalProperties": false },
+    "environment": { "type": "object", "additionalProperties": { "type": "string" } },
+    "output": { "type": "object", "required": ["stdout_bytes", "stderr_bytes", "stdout_truncated", "stderr_truncated"], "properties": { "stdout_bytes": { "type": "integer" }, "stderr_bytes": { "type": "integer" }, "stdout_truncated": { "type": "boolean" }, "stderr_truncated": { "type": "boolean" } }, "additionalProperties": false },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "completeness": { "type": "object", "required": ["trace_complete", "parser_unparsed_lines", "processes_may_have_escaped"], "properties": { "trace_complete": { "type": "boolean" }, "parser_unparsed_lines": { "type": "integer" }, "processes_may_have_escaped": { "type": "boolean" } }, "additionalProperties": false }
+  },
+  "additionalProperties": false
+}

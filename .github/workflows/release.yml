@@ -1,0 +1,114 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    permissions:
+      contents: read
+      checks: write
+      id-token: write
+      attestations: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            arch: x64
+            rust_target: x86_64-unknown-linux-musl
+            bun_target: bun-linux-x64-baseline
+            bun_url: https://github.com/oven-sh/bun/releases/download/bun-v1.3.14/bun-linux-x64-baseline.zip
+          - runner: ubuntu-24.04-arm
+            arch: arm64
+            rust_target: aarch64-unknown-linux-musl
+            bun_target: bun-linux-arm64
+            bun_url: https://github.com/oven-sh/bun/releases/download/bun-v1.3.14/bun-linux-aarch64.zip
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: "1.3.14"
+          bun-download-url: ${{ matrix.bun_url }}
+      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        with:
+          toolchain: "1.97.0"
+          components: rustfmt, clippy
+          targets: ${{ matrix.rust_target }}
+      - run: sudo apt-get update && sudo apt-get install -y build-essential musl-tools shellcheck strace
+      - run: bun install --frozen-lockfile
+      - run: bun run audit:js
+      - uses: rustsec/audit-check@69366f33c96575abad1ee0dba8212993eecbe998 # v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: bun run check
+      - run: bun run test
+      - run: bun run build
+      - name: Verify Linux tracing scenarios
+        run: PATH="${PWD}/dist:${PATH}" ./demos/run-all.sh
+      - run: ./scripts/verify-production-limits.sh
+      - name: Build portable release binaries
+        run: |
+          cargo build --locked --release --target "${{ matrix.rust_target }}" -p trace-core
+          bun build apps/cli/src/index.ts --compile --target="${{ matrix.bun_target }}" --outfile dist/tracewhy
+      - name: Package release
+        env:
+          TRACEWHY_CORE_BINARY: ${{ github.workspace }}/target/${{ matrix.rust_target }}/release/tracewhy-trace-core
+        run: ./scripts/package-release.sh "${GITHUB_REF_NAME}" "${{ matrix.arch }}"
+      - run: ./scripts/verify-release.sh "dist/tracewhy-linux-${{ matrix.arch }}.tar.gz"
+      - uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0
+        with:
+          path: dist/stage/tracewhy
+          format: spdx-json
+          output-file: dist/tracewhy-linux-${{ matrix.arch }}.spdx.json
+          upload-artifact: false
+      - uses: actions/attest-build-provenance@43d14bc2b83dec42d39ecae14e916627a18bb661 # v3
+        with:
+          subject-path: |
+            dist/tracewhy-linux-${{ matrix.arch }}.tar.gz
+            dist/tracewhy-linux-${{ matrix.arch }}.spdx.json
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: tracewhy-linux-${{ matrix.arch }}
+          if-no-files-found: error
+          path: |
+            dist/tracewhy-linux-${{ matrix.arch }}.tar.gz
+            dist/tracewhy-linux-${{ matrix.arch }}.spdx.json
+            dist/SHA256SUMS
+
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          path: artifacts
+      - name: Merge checksums
+        run: |
+          find artifacts -name SHA256SUMS -exec cat {} + | sort -u > SHA256SUMS.merged
+          mv SHA256SUMS.merged SHA256SUMS
+          test "$(wc -l < SHA256SUMS)" -eq 2
+      - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
+        with:
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            artifacts/**/*.tar.gz
+            artifacts/**/*.spdx.json
+            SHA256SUMS
+            CHANGELOG.md
+            LICENSE

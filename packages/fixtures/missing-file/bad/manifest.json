@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "tracewhy_version": "1.0.0",
+  "recording_id": "fixture-missing-file-bad",
+  "name": "bad",
+  "started_at": "2026-01-01T00:00:01.000Z",
+  "duration_ms": 15,
+  "command": "demo",
+  "args": [],
+  "cwd": "$PROJECT",
+  "exit": { "code": 1, "success": false },
+  "system": { "platform": "linux", "kernel": "fixture", "architecture": "x86_64", "distribution": "TraceWhy fixture" },
+  "environment": { "PATH": "/usr/local/bin:/usr/bin:/bin" },
+  "output": { "stdout_bytes": 0, "stderr_bytes": 27, "stdout_truncated": false, "stderr_truncated": false },
+  "warnings": [],
+  "completeness": { "trace_complete": true, "parser_unparsed_lines": 0, "processes_may_have_escaped": false }
+}

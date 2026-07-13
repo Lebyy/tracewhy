@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tracewhy.dev/schema/comparison-suite-v1.json",
+  "title": "TraceWhy comparison suite",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "title",
+    "description",
+    "generated_at",
+    "cases"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "kind": { "const": "comparison_suite" },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "cases": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/case" }
+    }
+  },
+  "$defs": {
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "label",
+        "description",
+        "capabilities",
+        "comparison"
+      ],
+      "properties": {
+        "case_id": { "type": "string" },
+        "label": { "type": "string" },
+        "description": { "type": "string" },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "process_tree",
+              "file_access",
+              "permissions",
+              "executable_selection",
+              "path_resolution",
+              "working_directory",
+              "child_exit",
+              "shared_libraries"
+            ]
+          }
+        },
+        "comparison": { "$ref": "comparison.schema.json" }
+      }
+    }
+  }
+}

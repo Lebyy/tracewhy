@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "tracewhy_version": "1.0.0",
+  "recording_id": "2c387390-a340-4114-99a9-b185f749ed6c",
+  "name": "good",
+  "started_at": "2026-07-13T12:07:40.349Z",
+  "duration_ms": 31,
+  "command": "./.build/media-worker",
+  "args": [
+    "--config",
+    "worker.toml"
+  ],
+  "cwd": "/workspace/demos/missing-config",
+  "exit": {
+    "code": 0,
+    "success": true
+  },
+  "system": {
+    "platform": "linux",
+    "kernel": "Linux 6.12.76-linuxkit",
+    "architecture": "aarch64",
+    "distribution": "Debian GNU/Linux 12 (bookworm)",
+    "libc": "ldd (Debian GLIBC 2.36-9+deb12u14) 2.36"
+  },
+  "environment": {
+    "PATH": "/workspace/dist:/workspace/dist:/usr/local/cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  },
+  "output": {
+    "stdout_bytes": 87,
+    "stderr_bytes": 0,
+    "stdout_truncated": false,
+    "stderr_truncated": false
+  },
+  "warnings": [],
+  "completeness": {
+    "trace_complete": true,
+    "parser_unparsed_lines": 0,
+    "processes_may_have_escaped": false
+  }
+}
