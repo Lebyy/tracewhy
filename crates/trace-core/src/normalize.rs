@@ -1,5 +1,3 @@
-use std::path::Path;
-
 pub fn normalize_path(value: &str, home: Option<&str>, project_root: Option<&str>) -> String {
     let mut result = value.replace("\\\\", "/");
     if let Some(root) = project_root.filter(|root| !root.is_empty()) {
@@ -47,8 +45,7 @@ pub fn join_resource(base: &str, resource: &str) -> String {
     if resource.starts_with('/') || resource.starts_with('~') || resource.starts_with('$') {
         return resource.to_string();
     }
-    let joined = Path::new(base).join(resource);
-    collapse_path(&joined.to_string_lossy())
+    collapse_path(&format!("{}/{}", base.trim_end_matches('/'), resource))
 }
 
 fn collapse_path(value: &str) -> String {
@@ -58,7 +55,11 @@ fn collapse_path(value: &str) -> String {
         match part {
             "" | "." => {}
             ".." => {
-                parts.pop();
+                if parts.last().is_some_and(|part| *part != "..") {
+                    parts.pop();
+                } else if !absolute {
+                    parts.push("..");
+                }
             }
             other => parts.push(other),
         }
@@ -111,5 +112,7 @@ mod tests {
             join_resource("/work/app", "../config.json"),
             "/work/config.json"
         );
+        assert_eq!(join_resource(".", "config.json"), "config.json");
+        assert_eq!(join_resource(".", "../config.json"), "../config.json");
     }
 }

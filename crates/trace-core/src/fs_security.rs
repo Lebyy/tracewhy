@@ -16,12 +16,15 @@ pub fn private_file_options() -> OpenOptions {
 }
 
 pub fn create_private_directory(path: &Path) -> io::Result<()> {
-    let mut builder = fs::DirBuilder::new();
     #[cfg(unix)]
-    {
+    let builder = {
         use std::os::unix::fs::DirBuilderExt;
+        let mut builder = fs::DirBuilder::new();
         builder.mode(0o700);
-    }
+        builder
+    };
+    #[cfg(not(unix))]
+    let builder = fs::DirBuilder::new();
     builder.create(path)
 }
 
