@@ -1,6 +1,6 @@
 {
   "name": "tracewhy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "Deterministic, evidence-linked environment debugging",
   "license": "Apache-2.0",
@@ -20,7 +20,8 @@
     "build:web": "bun run --cwd apps/web build && bun scripts/stage-web.ts",
     "build:showcase": "bun scripts/build-showcase-suite.ts",
     "verify:portable": "bun scripts/verify-portable.ts",
-    "check": "bun run check:versions && bun run check:format && bun run check:core && bun run check:shell && bun run check:ts",
+    "check": "bun run check:versions && bun run check:npm-readme && bun run check:format && bun run check:core && bun run check:shell && bun run check:ts",
+    "check:npm-readme": "bun scripts/check-npm-readme.ts",
     "check:versions": "bun scripts/check-versions.ts",
     "check:format": "cargo fmt --all -- --check",
     "check:core": "cargo clippy --locked --workspace --all-targets -- -D warnings",

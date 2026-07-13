@@ -1,6 +1,6 @@
 {
   "name": "@tracewhy/web",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "TraceWhy local evidence explorer",
   "license": "Apache-2.0",
