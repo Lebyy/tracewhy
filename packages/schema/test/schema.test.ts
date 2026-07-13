@@ -59,9 +59,10 @@ describe("published JSON schemas", () => {
         "bun", cli, "export", join(fixture, "good"), join(fixture, "bad"),
         "--format", "json", "--output", output, "--data-dir", temporary,
       ],
-      { stdout: "pipe", stderr: "pipe" },
+      { stdout: "ignore", stderr: "pipe" },
     );
-    expect(await child.exited).toBe(0);
+    const [stderr, exitCode] = await Promise.all([new Response(child.stderr).text(), child.exited]);
+    if (exitCode !== 0) throw new Error(stderr.trim() || `TraceWhy exited ${exitCode}.`);
     const json = await readFile(output, "utf8");
     expect(json.endsWith("}\n"), `comparison export was truncated at ${json.length} bytes`).toBe(true);
     await expectValid(JSON.parse(json), await loadSchema("comparison.schema.json"), "$comparison");

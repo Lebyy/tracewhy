@@ -1,7 +1,7 @@
 import type { Comparison } from "@tracewhy/schema";
 import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, readFile, rm, stat } from "node:fs/promises";
-import { basename, dirname, join, resolve } from "node:path";
+import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { runCore } from "./core";
 import { ensureDataLayout, safeRecordingName } from "./paths";
@@ -58,7 +58,9 @@ async function resolveRecording(reference: string, dataDir: string, temporary: s
 }
 
 function resolveNamed(reference: string, dataDir: string): string {
-  if (reference.includes("/") || reference.startsWith(".")) return resolve(reference);
+  if (isAbsolute(reference) || reference.includes("/") || reference.includes("\\") || reference.startsWith(".")) {
+    return resolve(reference);
+  }
   return join(dataDir, "recordings", safeRecordingName(reference));
 }
 

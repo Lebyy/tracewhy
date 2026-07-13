@@ -11,11 +11,9 @@ afterAll(() => rm(temporary, { recursive: true, force: true }));
 
 describe("missing-file vertical slice", () => {
   test("compares fixture recordings and returns the diagnosis exit code", async () => {
-    const child = Bun.spawn(
-      ["bun", cli, "compare", join(fixture, "good"), join(fixture, "bad"), "--data-dir", temporary],
-      { stdout: "pipe", stderr: "ignore" },
-    );
-    const [stdout, exitCode] = await Promise.all([new Response(child.stdout).text(), child.exited]);
+    const { stdout, exitCode } = await runCli([
+      "compare", join(fixture, "good"), join(fixture, "bad"), "--data-dir", temporary,
+    ]);
     expect(exitCode).toBe(1);
     expect(stdout).toContain("File or directory is missing: config.json");
     expect(stdout).toContain("HIGH CONFIDENCE");
@@ -23,14 +21,11 @@ describe("missing-file vertical slice", () => {
 
   test("exports a self-contained offline report", async () => {
     const output = join(temporary, "report.html");
-    const child = Bun.spawn(
-      [
-        "bun", cli, "export", join(fixture, "good"), join(fixture, "bad"),
-        "--format", "html", "--output", output, "--data-dir", temporary,
-      ],
-      { stdout: "ignore", stderr: "ignore" },
-    );
-    expect(await child.exited).toBe(0);
+    const { exitCode } = await runCli([
+      "export", join(fixture, "good"), join(fixture, "bad"),
+      "--format", "html", "--output", output, "--data-dir", temporary,
+    ]);
+    expect(exitCode).toBe(0);
     const html = await readFile(output, "utf8");
     expect(html).toContain("<!doctype html>");
     expect(html).toContain("File or directory is missing");
@@ -39,18 +34,24 @@ describe("missing-file vertical slice", () => {
 
   test("packs and compares a portable recording bundle", async () => {
     const bundle = join(temporary, "good.tracewhy");
-    const pack = Bun.spawn(["bun", cli, "pack", join(fixture, "good"), "--output", bundle, "--data-dir", temporary], {
-      stdout: "ignore",
-      stderr: "ignore",
-    });
-    expect(await pack.exited).toBe(0);
+    const packed = await runCli(["pack", join(fixture, "good"), "--output", bundle, "--data-dir", temporary]);
+    expect(packed.exitCode).toBe(0);
 
-    const compare = Bun.spawn(["bun", cli, "compare", bundle, join(fixture, "bad"), "--data-dir", temporary], {
-      stdout: "pipe",
-      stderr: "ignore",
-    });
-    const [stdout, exitCode] = await Promise.all([new Response(compare.stdout).text(), compare.exited]);
+    const { stdout, exitCode } = await runCli([
+      "compare", bundle, join(fixture, "bad"), "--data-dir", temporary,
+    ]);
     expect(exitCode).toBe(1);
     expect(stdout).toContain("File or directory is missing: config.json");
   });
 });
+
+async function runCli(args: string[]): Promise<{ stdout: string; exitCode: number }> {
+  const child = Bun.spawn(["bun", cli, ...args], { stdout: "pipe", stderr: "pipe" });
+  const [stdout, stderr, exitCode] = await Promise.all([
+    new Response(child.stdout).text(),
+    new Response(child.stderr).text(),
+    child.exited,
+  ]);
+  if (exitCode === 2) throw new Error(stderr.trim() || "TraceWhy reported an internal error.");
+  return { stdout, exitCode };
+}
