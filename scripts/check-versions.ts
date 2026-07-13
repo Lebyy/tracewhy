@@ -2,7 +2,13 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const root = resolve(import.meta.dir, "..");
-const packagePaths = ["package.json", "apps/cli/package.json", "apps/web/package.json", "packages/schema/package.json"];
+const packagePaths = [
+  "package.json",
+  "apps/cli/package.json",
+  "apps/web/package.json",
+  "packages/schema/package.json",
+  "npm/tracewhy/package.json",
+];
 const versions = packagePaths.map((path) => {
   const contents = JSON.parse(readFileSync(resolve(root, path), "utf8")) as { version?: string };
   if (!contents.version) throw new Error(`${path} has no version.`);

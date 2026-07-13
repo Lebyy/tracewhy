@@ -12,7 +12,7 @@
     },
     "apps/cli": {
       "name": "@tracewhy/cli",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "bin": {
         "tracewhy": "src/index.ts",
       },
@@ -22,7 +22,7 @@
     },
     "apps/web": {
       "name": "@tracewhy/web",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@tracewhy/schema": "workspace:*",
         "next": "16.2.10",
@@ -37,7 +37,7 @@
     },
     "packages/schema": {
       "name": "@tracewhy/schema",
-      "version": "1.0.0",
+      "version": "1.0.1",
     },
   },
   "overrides": {

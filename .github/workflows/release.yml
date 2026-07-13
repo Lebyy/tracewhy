@@ -102,6 +102,9 @@ jobs:
           find artifacts -name SHA256SUMS -exec cat {} + | sort -u > SHA256SUMS.merged
           mv SHA256SUMS.merged SHA256SUMS
           test "$(wc -l < SHA256SUMS)" -eq 2
+      - name: Package npm installer
+        working-directory: npm/tracewhy
+        run: npm pack
       - uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
         with:
           generate_release_notes: true
@@ -109,6 +112,7 @@ jobs:
           files: |
             artifacts/**/*.tar.gz
             artifacts/**/*.spdx.json
+            npm/tracewhy/tracewhy-*.tgz
             SHA256SUMS
             CHANGELOG.md
             LICENSE

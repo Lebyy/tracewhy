@@ -12,3 +12,5 @@ coverage/
 *.tracewhy
 .env
 .env.local
+npm/tracewhy/native/
+npm/tracewhy/*.tgz

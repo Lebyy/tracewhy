@@ -55,14 +55,24 @@ TraceWhy separates **recording** from **analysis**. Linux recording uses `strace
 
 | Platform tested in CI | Record | Compare / pack / export / view | Distribution |
 | --- | :---: | :---: | --- |
-| Linux x86-64 (`ubuntu-24.04`) | Yes | Yes | Release archive |
-| Linux ARM64 (`ubuntu-24.04-arm`) | Yes | Yes | Release archive |
+| Linux x86-64 (`ubuntu-24.04`) | Yes | Yes | Release archive / npm |
+| Linux ARM64 (`ubuntu-24.04-arm`) | Yes | Yes | Release archive / npm |
 | macOS ARM64 (`macos-15`) | Linux capture only | Yes | Build from source |
 | Windows x86-64 (`windows-2025`) | Linux capture only | Yes | Build from source |
 
 Native macOS and Windows capture are not claimed in v1. They require dedicated, security-sensitive backends—Endpoint Security/DTrace on macOS and ETW on Windows—not a renamed `strace` wrapper. See the [support contract and roadmap](docs/platform-support.md).
 
 ## Install on Linux
+
+With npm:
+
+```bash
+npm install --global tracewhy
+```
+
+The npm package downloads the matching official release archive and verifies its published SHA-256 digest. Runtime use remains fully offline.
+
+Or use the standalone installer:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Lebyy/tracewhy/main/scripts/install.sh | sh
@@ -71,7 +81,7 @@ curl -fsSL https://raw.githubusercontent.com/Lebyy/tracewhy/main/scripts/install
 Install a specific version or location:
 
 ```bash
-TRACEWHY_VERSION=v1.0.0 TRACEWHY_INSTALL_DIR="$HOME/.local/bin" sh install.sh
+TRACEWHY_VERSION=v1.0.1 TRACEWHY_INSTALL_DIR="$HOME/.local/bin" sh install.sh
 ```
 
 Release archives contain the CLI, static Rust engine, standalone report, and its pinned runtime. The installer verifies the published SHA-256 checksum. `strace` is required only for recording.
@@ -114,6 +124,7 @@ apps/cli          Bun/TypeScript capture and user workflows
 apps/web          Next.js local evidence explorer
 crates/trace-core Rust parsing, normalization, comparison, and diagnosis
 packages/schema   Shared schemas and TypeScript types
+npm/tracewhy      Verified npm installer for official Linux releases
 demos             Six reproducible native Linux failures
 ```
 
